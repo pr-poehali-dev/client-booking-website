@@ -10,15 +10,113 @@ import Icon from '@/components/ui/icon';
 const Index = () => {
   const [selectedService, setSelectedService] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [selectedMaster, setSelectedMaster] = useState('');
+  const [availableServices, setAvailableServices] = useState([]);
 
-  const services = [
-    { id: 'eyelashes', name: 'Наращивание ресниц', price: '3500₽', duration: '2 часа' },
-    { id: 'eyebrows', name: 'Оформление бровей', price: '2500₽', duration: '1 час' },
-    { id: 'manicure', name: 'Маникюр', price: '2000₽', duration: '1.5 часа' },
-    { id: 'facial', name: 'Уход за лицом', price: '4000₽', duration: '1.5 часа' },
-    { id: 'massage', name: 'Массаж лица', price: '3000₽', duration: '1 час' },
-    { id: 'peeling', name: 'Пилинг', price: '3500₽', duration: '1 час' }
+  const masters = [
+    {
+      id: 'marina',
+      name: 'Марина Царёва',
+      title: 'Инструктор / Руководитель',
+      specialty: 'Лешмейкер',
+      services: [
+        { id: 'classic', name: 'Классика', duration: '1 ч. 30 мин.', price: 2000 },
+        { id: '1.5d', name: 'Полуторный объём (1,5D)', duration: '1 ч. 40 мин.', price: 2200 },
+        { id: '2d', name: 'Двойной объём (2D)', duration: '2 ч.', price: 2300 },
+        { id: '2.5d', name: 'Двойной с половиной объём (2,5D)', duration: '2 ч. 15 мин.', price: 2400 },
+        { id: '3d', name: 'Тройной объём (3D)', duration: '2 ч. 30 мин.', price: 2500 },
+        { id: '3.5d', name: '3,5D объем', duration: '2 ч. 30 мин.', price: 2600 },
+        { id: '4d', name: 'Гиперобъем (4d)', duration: '3 ч.', price: 2700 },
+        { id: '5d-6d', name: 'Гиперобъем (5D-6D)', duration: '3 ч.', price: 2900 },
+        { id: 'colored', name: 'Лучи, Ким, цветные вставки', duration: '10 мин.', price: 200 },
+        { id: 'removal-before', name: 'Снятие чужой работы перед наращиванием', duration: '15 мин.', price: 100 },
+        { id: 'removal', name: 'Снятие ресниц без последующего наращивания', duration: '15 мин.', price: 300 },
+        { id: 'brows', name: 'Коррекция+окрашивание бровей (Хна/Воск/Пинцет)', duration: '45 мин.', price: 1000 },
+        { id: 'upper-lip', name: 'Удаление волос верхней губы (Воск)', duration: '10 мин.', price: 400 },
+        { id: 'led', name: 'Led наращивание', duration: '5 мин.', price: 200 },
+        { id: 'training', name: 'Обучение: классическое наращивание ресниц', duration: '16 ч.', price: 18000 }
+      ]
+    },
+    {
+      id: 'anastasia',
+      name: 'Анастасия Борисова',
+      title: 'Топ-мастер',
+      specialty: 'Лешмейкер',
+      services: [
+        { id: 'classic', name: 'Классика', duration: '1 ч. 30 мин.', price: 1900 },
+        { id: '1.5d', name: '1,5D объем', duration: '2 ч.', price: 2000 },
+        { id: '2d', name: '2D объем', duration: '2 ч. 30 мин.', price: 2100 },
+        { id: '2.5d', name: '2,5D объем', duration: '2 ч. 30 мин.', price: 2200 },
+        { id: '3d', name: '3D объем', duration: '2 ч. 30 мин.', price: 2300 },
+        { id: '3.5d', name: '3,5D объем', duration: '2 ч. 30 мин.', price: 2400 },
+        { id: '4d', name: '4D объем', duration: '2 ч. 30 мин.', price: 2500 },
+        { id: '0.5d', name: '0.5 D классика', duration: '1 ч. 30 мин.', price: 1400 },
+        { id: 'l-m-bends', name: 'Изгибы L, M', duration: '', price: 200 },
+        { id: 'removal', name: 'Снятие ресниц без последующего наращивания', duration: '15 мин.', price: 300 },
+        { id: 'removal-before', name: 'Снятие чужой работы перед наращиванием', duration: '15 мин.', price: 100 },
+        { id: 'corner', name: 'Уголок l или m изгиб', duration: '', price: 100 },
+        { id: 'colored', name: 'Цветные вставки', duration: '', price: 100 },
+        { id: 'holiday', name: 'Праздничные дни', duration: '', price: 500 },
+        { id: 'thickening', name: 'Загущение', duration: '', price: 100 }
+      ]
+    },
+    {
+      id: 'anna',
+      name: 'Анна Журавлёва',
+      title: 'Топ-мастер',
+      specialty: 'Бровист',
+      services: [
+        { id: 'pm-lips', name: 'Перманентный макияж губ (акварель)', duration: '4 ч.', price: 7000 },
+        { id: 'pm-update', name: 'Обновление цвета (перманентный макияж)', duration: '2 ч.', price: 5000 },
+        { id: 'pm-brows', name: 'Перманентный макияж бровей (пудра)', duration: '3 ч.', price: 7000 },
+        { id: 'lash-lamination', name: 'Ламинирование ресниц + BOTOX (питание)', duration: '1 ч. 30 мин.', price: 1800 },
+        { id: 'brows-thread', name: 'Коррекция и окрашивание бровей НИТЬ/пинцет (краской/хной)', duration: '1 ч.', price: 1000 },
+        { id: 'brows-wax', name: 'Коррекция и окрашивание бровей ВОСК/пинцет (хна/краска)', duration: '1 ч.', price: 1200 },
+        { id: 'brows-correction', name: 'Коррекция бровей(пинцет/нить)', duration: '40 мин.', price: 700 },
+        { id: 'brow-styling', name: 'Долговременная укладка бровей', duration: '1 ч.', price: 1600 },
+        { id: 'lash-express', name: 'Ламинирование ресниц (экспресс)', duration: '40 мин.', price: 1600 },
+        { id: 'brow-botox', name: 'Долговременная укладка бровей + протеинботокс', duration: '1 ч.', price: 1900 },
+        { id: 'pm-cover', name: 'Перекрытие старого перманента', duration: '3 ч.', price: 10000 },
+        { id: 'nose-wax', name: 'Нос (воск)', duration: '20 мин.', price: 400 },
+        { id: 'brow-lighten', name: 'Осветление бровей', duration: '20 мин.', price: 600 },
+        { id: 'brow-thin', name: 'Прореживание бровей', duration: '30 мин.', price: 500 },
+        { id: 'botox-treatment', name: 'Botox+collagen+vitaminB', duration: '20 мин.', price: 400 },
+        { id: 'lower-lash', name: 'Ламинирование нижних ресниц', duration: '30 мин.', price: 750 },
+        { id: 'brow-happiness', name: 'Счастье для бровей', duration: '10 мин.', price: 600 },
+        { id: 'lash-tint', name: 'Окрашивание ресниц', duration: '30 мин.', price: 450 },
+        { id: 'upper-lip', name: 'Удаление волос верхняя губа', duration: '10 мин.', price: 400 },
+        { id: 'pm-correction', name: 'Коррекция ПМ бровей', duration: '2 ч.', price: 3500 },
+        { id: 'pm-consultation', name: 'Консультация Перманентный макияж бровей', duration: '1 ч.', price: 500 }
+      ]
+    },
+    {
+      id: 'victoria',
+      name: 'Виктория Кундина',
+      title: 'Мастер-стажёр',
+      specialty: 'Лешмейкер',
+      services: [
+        { id: 'classic', name: 'Классика', duration: '3 ч. 30 мин.', price: 800 },
+        { id: 'wet-effect', name: 'Мокрый эффект (2д)', duration: '4 ч.', price: 1000 },
+        { id: 'removal', name: 'Снятие ресниц', duration: '30 мин.', price: 200 },
+        { id: '2d-model', name: 'Двойной объем (модель)', duration: '4 ч.', price: 500 },
+        { id: 'lower-model', name: 'Наращивание нижних ресниц (модель)', duration: '1 ч. 30 мин.', price: 200 }
+      ]
+    }
   ];
+
+  const handleMasterChange = (masterId) => {
+    setSelectedMaster(masterId);
+    const master = masters.find(m => m.id === masterId);
+    setAvailableServices(master ? master.services : []);
+    setSelectedService('');
+  };
+
+  const getSelectedServicePrice = () => {
+    if (!selectedMaster || !selectedService) return '';
+    const master = masters.find(m => m.id === selectedMaster);
+    const service = master?.services.find(s => s.id === selectedService);
+    return service ? `${service.price}₽` : '';
+  };
 
   const timeSlots = [
     '09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00', '19:30'
@@ -88,24 +186,47 @@ const Index = () => {
             <p className="text-xl text-muted-foreground">Выберите идеальную процедуру для себя</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={service.id} className="hover-scale animate-fade-in border-0 shadow-lg" style={{animationDelay: `${index * 0.1}s`}}>
+          <div className="grid gap-8">
+            {masters.map((master, index) => (
+              <Card key={master.id} className="hover-scale animate-fade-in border-0 shadow-lg" style={{animationDelay: `${index * 0.1}s`}}>
                 <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-xl font-inter">{service.name}</CardTitle>
-                    <span className="text-2xl font-bold text-primary">{service.price}</span>
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="p-3 bg-primary rounded-full">
+                      <Icon name="User" size={24} className="text-primary-foreground" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-inter">{master.name}</CardTitle>
+                      <CardDescription className="text-lg text-muted-foreground">
+                        {master.title} • {master.specialty}
+                      </CardDescription>
+                    </div>
                   </div>
-                  <CardDescription className="text-muted-foreground">
-                    Длительность: {service.duration}
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {master.services.slice(0, 6).map((service) => (
+                      <div key={service.id} className="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-medium text-sm">{service.name}</h4>
+                          <span className="text-primary font-bold">{service.price}₽</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">{service.duration}</p>
+                      </div>
+                    ))}
+                    {master.services.length > 6 && (
+                      <div className="p-4 border rounded-lg bg-muted/30 flex items-center justify-center">
+                        <span className="text-sm text-muted-foreground">+{master.services.length - 6} услуг</span>
+                      </div>
+                    )}
+                  </div>
                   <Button 
-                    className="w-full bg-secondary hover:bg-secondary/90" 
-                    onClick={() => setSelectedService(service.id)}
+                    className="w-full mt-4 bg-secondary hover:bg-secondary/90" 
+                    onClick={() => {
+                      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+                      handleMasterChange(master.id);
+                    }}
                   >
-                    Выбрать услугу
+                    Записаться к мастеру
                   </Button>
                 </CardContent>
               </Card>
@@ -140,19 +261,40 @@ const Index = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="service">Услуга</Label>
-                  <Select value={selectedService} onValueChange={setSelectedService}>
+                  <Label htmlFor="master">Мастер</Label>
+                  <Select value={selectedMaster} onValueChange={handleMasterChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите услугу" />
+                      <SelectValue placeholder="Выберите мастера" />
                     </SelectTrigger>
                     <SelectContent>
-                      {services.map((service) => (
-                        <SelectItem key={service.id} value={service.id}>
-                          {service.name} - {service.price}
+                      {masters.map((master) => (
+                        <SelectItem key={master.id} value={master.id}>
+                          {master.name} - {master.specialty}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="service">Услуга</Label>
+                  <Select value={selectedService} onValueChange={setSelectedService} disabled={!selectedMaster}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={selectedMaster ? "Выберите услугу" : "Сначала выберите мастера"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableServices.map((service) => (
+                        <SelectItem key={service.id} value={service.id}>
+                          {service.name} - {service.price}₽ ({service.duration})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {getSelectedServicePrice() && (
+                    <div className="mt-2 p-3 bg-primary/10 rounded-lg">
+                      <p className="text-sm font-medium">Стоимость: <span className="text-primary text-lg">{getSelectedServicePrice()}</span></p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
@@ -182,9 +324,9 @@ const Index = () => {
                   <Textarea id="comment" placeholder="Дополнительные пожелания..." rows={3} />
                 </div>
 
-                <Button className="w-full bg-primary hover:bg-primary/90 text-lg py-6">
+                <Button className="w-full bg-primary hover:bg-primary/90 text-lg py-6" disabled={!selectedMaster || !selectedService}>
                   <Icon name="Check" size={20} className="mr-2" />
-                  Подтвердить запись
+                  Подтвердить запись{getSelectedServicePrice() && ` за ${getSelectedServicePrice()}`}
                 </Button>
               </CardContent>
             </Card>
